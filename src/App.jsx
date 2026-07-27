@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
 import './App.css'
 
+const API_URL = import.meta.env.VITE_API_URL || 'https://backend-barbearia.vercel.app'
+
 function getLocalISODate(date = new Date()) {
   const year = date.getFullYear()
   const month = String(date.getMonth() + 1).padStart(2, '0')
@@ -24,7 +26,7 @@ function getDaysInMonth(dateString) {
 }
 
 async function fetchAppointmentsForMonth(month, signal) {
-  const response = await fetch(`/api/appointments?month=${month}`, {
+  const response = await fetch(`${API_URL}/api/appointments?month=${month}`, {
     signal,
     credentials: 'include',
   })
@@ -37,7 +39,7 @@ async function fetchAppointmentsForMonth(month, signal) {
 }
 
 async function loginWithServer(username, password) {
-  const response = await fetch('/api/auth/login', {
+  const response = await fetch(`${API_URL}/api/auth/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -55,7 +57,7 @@ async function loginWithServer(username, password) {
 }
 
 async function validateSession(token) {
-  const response = await fetch('/api/auth/session', {
+  const response = await fetch(`${API_URL}/api/auth/session`, {
     credentials: 'include',
     headers: {
       Authorization: `Bearer ${token}`,
@@ -70,7 +72,7 @@ async function validateSession(token) {
 }
 
 async function logoutSession(token) {
-  await fetch('/api/auth/logout', {
+  await fetch(`${API_URL}/api/auth/logout`, {
     method: 'POST',
     credentials: 'include',
     headers: {
@@ -197,13 +199,10 @@ function App() {
   }
 
   const handleLogout = () => {
-    logoutSession('cookie-session')
-      .then(() => {
-        setIsAuthenticated(false)
-      })
-      .catch(() => {
-        setApiError('Nao foi possivel encerrar a sessão.')
-      })
+    logoutSession('cookie-session').catch(() => null)
+    setIsAuthenticated(false)
+    setApiError('')
+    setLoginError('')
   }
 
   const handleChange = (event) => {
@@ -222,7 +221,7 @@ function App() {
     }
 
     try {
-      const response = await fetch('/api/appointments', {
+      const response = await fetch(`${API_URL}/api/appointments`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -255,7 +254,7 @@ function App() {
 
   const toggleDone = async (appointment) => {
     try {
-      const response = await fetch(`/api/appointments/${appointment.id}`, {
+      const response = await fetch(`${API_URL}/api/appointments/${appointment.id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -280,7 +279,7 @@ function App() {
 
   const removeAppointment = async (id) => {
     try {
-      const response = await fetch(`/api/appointments/${id}`, {
+      const response = await fetch(`${API_URL}/api/appointments/${id}`, {
         method: 'DELETE',
         credentials: 'include',
       })
@@ -327,7 +326,7 @@ function App() {
                 value={loginForm.username}
                 onChange={handleLoginChange}
                 autoComplete="username"
-                placeholder="Seu nome de usuário"
+                placeholder="barbeiro"
               />
             </label>
 
@@ -339,7 +338,7 @@ function App() {
                 value={loginForm.password}
                 onChange={handleLoginChange}
                 autoComplete="current-password"
-                placeholder="*********"
+                placeholder="1234"
               />
             </label>
 
@@ -348,7 +347,10 @@ function App() {
             <button type="submit">Entrar</button>
           </form>
 
-        
+          <p className="auth-note">
+            Acessos padrão: <strong>barbeiro</strong> / <strong>1234</strong> e{' '}
+            <strong>ismael</strong> / <strong>1234</strong>
+          </p>
         </section>
       </main>
     )
