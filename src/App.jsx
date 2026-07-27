@@ -326,7 +326,7 @@ function App() {
                 value={loginForm.username}
                 onChange={handleLoginChange}
                 autoComplete="username"
-                placeholder="barbeiro"
+                placeholder="Nome de Usuário"
               />
             </label>
 
@@ -338,7 +338,7 @@ function App() {
                 value={loginForm.password}
                 onChange={handleLoginChange}
                 autoComplete="current-password"
-                placeholder="1234"
+                placeholder="********"
               />
             </label>
 
@@ -347,10 +347,7 @@ function App() {
             <button type="submit">Entrar</button>
           </form>
 
-          <p className="auth-note">
-            Acessos padrão: <strong>barbeiro</strong> / <strong>1234</strong> e{' '}
-            <strong>ismael</strong> / <strong>1234</strong>
-          </p>
+         
         </section>
       </main>
     )
