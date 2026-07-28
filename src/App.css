@@ -137,6 +137,36 @@
   font: inherit;
 }
 
+/*
+  iOS Safari renderiza o controle nativo de input[type="date"] de um jeito
+  bem diferente do Chrome (inclusive do Chrome em modo mobile no DevTools).
+  Sem esse reset, o Safari desenha seu próprio ícone/controle por cima do
+  padding e da borda customizados, o que faz o ícone do calendário ficar
+  desproporcional ou mal posicionado só em iPhone de verdade.
+*/
+.date-picker input[type='date'] {
+  -webkit-appearance: none;
+  appearance: none;
+  position: relative;
+  padding-right: 40px;
+}
+
+.date-picker input[type='date']::-webkit-date-and-time-value {
+  text-align: left;
+}
+
+.date-picker input[type='date']::-webkit-calendar-picker-indicator {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  margin: 0;
+  opacity: 0.55;
+}
+
 .layout-grid {
   display: grid;
   grid-template-columns: 1fr;
