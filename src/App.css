@@ -145,10 +145,7 @@
   desproporcional ou mal posicionado só em iPhone de verdade.
 */
 .date-picker input[type='date'] {
-  -webkit-appearance: none;
-  appearance: none;
   position: relative;
-  padding-right: 40px;
 }
 
 .date-picker input[type='date']::-webkit-date-and-time-value {
@@ -156,10 +153,6 @@
 }
 
 .date-picker input[type='date']::-webkit-calendar-picker-indicator {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
   width: 20px;
   height: 20px;
   padding: 0;
